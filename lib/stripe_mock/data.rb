@@ -586,12 +586,7 @@ module StripeMock
         metadata: {},
         nickname: 'My Mock Price',
         product: "mock_prod_NONEXIST",  # override this with your own existing product id
-        recurring: {
-          aggregate_usage: nil,
-          interval: "month",
-          interval_count: 1,
-          usage_type: "licensed"
-        },
+        recurring: nil,
         tiers_mode: nil,
         transform_quantity: nil,
         type: "recurring",
