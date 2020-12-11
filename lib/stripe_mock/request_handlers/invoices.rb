@@ -64,7 +64,15 @@ module StripeMock
         route =~ method_url
         assert_existence :invoice, $1, invoices[$1]
         charge = invoice_charge(invoices[$1])
-        invoices[$1].merge!(:paid => true, :attempted => true, :charge => charge[:id])
+        invoices[$1].merge!(
+          :paid => true,
+          :attempted => true,
+          :charge => charge[:id],
+          :closed => true,
+          :status => 'paid',
+          :ending_balance => 0,
+          :next_payment_attempt => nil
+        )
       end
 
       def upcoming_invoice(route, method_url, params, headers)
