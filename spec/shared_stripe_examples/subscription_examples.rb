@@ -878,7 +878,7 @@ shared_examples 'Customer Subscriptions' do
         metadata: { foo: "bar", example: "yes" },
         default_payment_method: payment_method_card.id,
       )
-      
+
       subscriptions = Stripe::Subscription.list(customer: customer)
       expect(subscriptions.data.first.default_payment_method).to eq(payment_method_card.id)
 
@@ -887,7 +887,7 @@ shared_examples 'Customer Subscriptions' do
         default_payment_method: payment_method_sepa.id,
         collection_method: 'send_invoice',
       )
-      
+
       subscriptions = Stripe::Subscription.list(customer: customer)
       expect(subscriptions.data.first.collection_method).to eq('send_invoice')
       expect(subscriptions.data.first.default_payment_method).to eq(payment_method_sepa.id)
@@ -904,6 +904,20 @@ shared_examples 'Customer Subscriptions' do
       expect(subscription.discount).not_to be_nil
       expect(subscription.discount).to be_a(Stripe::Discount)
       expect(subscription.discount.coupon.id).to eq(coupon.id)
+    end
+
+    it 'when it attempts to add an exhausted coupon' do
+      coupon = stripe_helper.create_coupon(max_redemptions: 1, times_redeemed: 1)
+      customer = Stripe::Customer.create(source: gen_card_tk, plan: plan.id)
+      subscription = Stripe::Subscription.retrieve(customer.subscriptions.data.first.id)
+
+      subscription.coupon = coupon.id
+
+      expect { subscription.save }.to raise_error {|e|
+                                                     expect(e).to be_a Stripe::InvalidRequestError
+                                                     expect(e.http_status).to eq(400)
+                                                     expect(e.message).to eq("Coupon #{coupon.id} is used up and cannot be applied.")
+                                                   }
     end
 
     it 'when add not exist coupon' do

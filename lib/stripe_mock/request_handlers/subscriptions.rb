@@ -60,6 +60,10 @@ module StripeMock
           coupon = coupons[coupon_id]
 
           if coupon
+            if coupon[:times_redeemed] >= coupon[:max_redemptions]
+              raise Stripe::InvalidRequestError.new("Coupon #{coupon[:id]} is used up and cannot be applied.", 'coupon', http_status: 400)
+            end
+
             add_coupon_to_object(subscription, coupon)
           else
             raise Stripe::InvalidRequestError.new("No such coupon: #{coupon_id}", 'coupon', http_status: 400)
@@ -135,6 +139,10 @@ module StripeMock
           coupon = coupons[coupon_id]
 
           if coupon
+            if coupon[:times_redeemed] >= coupon[:max_redemptions]
+              raise Stripe::InvalidRequestError.new("Coupon #{coupon[:id]} is used up and cannot be applied.", 'coupon', http_status: 400)
+            end
+
             add_coupon_to_object(subscription, coupon)
           else
             raise Stripe::InvalidRequestError.new("No such coupon: #{coupon_id}", 'coupon', http_status: 400)
@@ -198,6 +206,10 @@ module StripeMock
 
           coupon = coupons[coupon_id]
           if coupon
+            if coupon[:times_redeemed] >= coupon[:max_redemptions]
+              raise Stripe::InvalidRequestError.new("Coupon #{coupon[:id]} is used up and cannot be applied.", 'coupon', http_status: 400)
+            end
+
             add_coupon_to_object(subscription, coupon)
           elsif coupon_id == ""
             subscription[:discount] = nil
