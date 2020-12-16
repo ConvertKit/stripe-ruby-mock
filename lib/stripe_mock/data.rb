@@ -407,7 +407,7 @@ module StripeMock
         customer: "test_customer",
         object: 'invoice',
         attempted: false,
-        application_fee: nil,
+        application_fee_amount: nil,
         closed: false,
         description: nil,
         forgiven: false,
