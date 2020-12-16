@@ -62,7 +62,7 @@
       "next_payment_attempt": null,
       "charge": "ch_00000000000000",
       "discount": null,
-      "application_fee": null,
+      "application_fee_amount": null,
       "subscription": "sub_00000000000000",
       "metadata": {},
       "description": null
