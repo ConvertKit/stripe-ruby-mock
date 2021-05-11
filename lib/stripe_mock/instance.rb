@@ -38,8 +38,8 @@ module StripeMock
     include StripeMock::RequestHandlers::Coupons
     include StripeMock::RequestHandlers::Disputes
     include StripeMock::RequestHandlers::Events
-    include StripeMock::RequestHandlers::Invoices
     include StripeMock::RequestHandlers::InvoiceItems
+    include StripeMock::RequestHandlers::Invoices
     include StripeMock::RequestHandlers::Orders
     include StripeMock::RequestHandlers::Plans
     include StripeMock::RequestHandlers::Prices
